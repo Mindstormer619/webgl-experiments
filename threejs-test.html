@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ThreeJS Test App</title>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<script src="js/three.min.js"></script>
+<script type="text/javascript">
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(75, window.innerWidth/ window.innerHeight, 0.1, 1000);
+
+    var renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // cube
+    var geometry = new THREE.BoxGeometry(1, 1, 1);
+    var material = new THREE.MeshBasicMaterial({color: 0xff0000});
+    var cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+
+    camera.position.z = 5;
+
+    var cameraChange = -0.01;
+    var cubeRotate = 0.1;
+
+    // rendering
+    function render() {
+        requestAnimationFrame(render);
+
+        // move the cube
+        cube.rotation.x += cubeRotate;
+        //cube.rotation.z += 0.1;
+        //cube.rotation.y += 0.1;
+
+        camera.position.z += cameraChange;
+        if (camera.position.z < 1 || camera.position.z > 5) {
+            cameraChange *= -1;
+            cubeRotate *= -1;
+        }
+
+        renderer.render(scene, camera);
+    }
+    render();
+</script>
+</body>
+</html>
